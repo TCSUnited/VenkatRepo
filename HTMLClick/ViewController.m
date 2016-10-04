@@ -16,9 +16,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    NSString *htmlString=@"<html><head><title></title></head><body><a href =\"inapp://capture\">Button</a></body></html";
+    
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    webView.delegate=self;
+    
+    
+    [webView loadHTMLString:htmlString baseURL:nil];
+    [self.view addSubview:webView];
+
+    
 }
 
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([request.URL.scheme isEqualToString:@"inapp"]) {
+        if ([request.URL.host isEqualToString:@"capture"]) {
+            NSLog(@"Capture");
+            
+            
+        }
+        return NO;
+    }
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
